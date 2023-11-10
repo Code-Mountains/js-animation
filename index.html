@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Pokémon Animation</title>
+    <title>Pikachu Running Animation</title>
     <style>
       #pokemon {
         position: absolute;
@@ -13,23 +13,31 @@
   <body>
     <img id="pokemon" src="" alt="Pokemon" />
     <script>
-      // Fetching a Pokemon sprite
+      // Fetching Pikachu's sprites
       fetch("https://pokeapi.co/api/v2/pokemon/pikachu")
         .then((response) => response.json())
         .then((data) => {
           const pokemonImage = document.getElementById("pokemon");
-          pokemonImage.src = data.sprites.front_default; // You can change 'front_default' to other sprite views
-          animatePokemon(pokemonImage);
+          const sprites = [
+            data.sprites.front_default,
+            data.sprites.back_default,
+          ];
+          animatePokemon(pokemonImage, sprites);
         });
 
-      // Function to animate the Pokemon
-      function animatePokemon(element) {
+      // Function to animate Pikachu
+      function animatePokemon(element, sprites) {
         let posX = 0;
         const speed = 5; // Adjust speed here
+        let spriteIndex = 0;
 
         function movePokemon() {
           posX += speed;
           element.style.left = posX + "px";
+
+          // Change sprite image to simulate running
+          spriteIndex = (spriteIndex + 1) % sprites.length;
+          element.src = sprites[spriteIndex];
 
           // Reset position if it goes off screen
           if (posX > window.innerWidth) {
